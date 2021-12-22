@@ -12,7 +12,8 @@ export const GlobalAppStateContext = createContext();
  */
 
 const GlobalStateProvider = (props) => {
-
+    
+    console.log(`[GlobalAppStateContext.js -> GlobalStateProvider Function]`);
     const [globalState, setGlobalState] = useState({
         isSignedIn: false,
         currency: "",
@@ -22,6 +23,8 @@ const GlobalStateProvider = (props) => {
         }
     });
 
+    console.log(`[Context] GlobalState: ${JSON.stringify(globalState)}`);
+    
     return (
         <GlobalAppStateContext.Provider value={{globalState, setGlobalState}}>
             {props.children}

@@ -6,6 +6,7 @@ import { GlobalAppStateContext } from '../contexts/GlobalAppStateContext';
 
 export const NavBar = () => {
 
+    
     const navBarStyle = {
       display: "flex",
       flexFlow: "row nowrap",
@@ -30,7 +31,8 @@ export const NavBar = () => {
     }
   
     const {globalState, setGlobalState}  = useContext(GlobalAppStateContext);
-
+    console.log(`[NavBar.tsx -> NavbarComponent]`);
+    console.log(`GlobalState: ${JSON.stringify(globalState)}`);
     const SignInOutElem = (props: any) => <p className="nav-icon inline">{props.children}</p> 
 
     const handleLoginOrLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -52,7 +54,7 @@ export const NavBar = () => {
         </ul>
         <a href="https://www.instagram.com/stacktraceco" style={brandTextStyle}><p style={{textTransform: "uppercase", display: "inline", margin: "0 8px 0 0"}}>Nothing</p><i className="fas fa-mortar-pestle"></i></a>
         <ul id="nav-action-item-list" className="flex-end" style={navItemListStyle}>
-          <li><Link className="react-router-link" to={globalState.isSignedIn ? '/signout' : '/signin'} onClick={handleLoginOrLogout}>{globalState.isSignedIn ? <SignInOutElem>SIGN OUT</SignInOutElem> : <SignInOutElem>SIGN IN</SignInOutElem>}</Link></li>
+          <li><Link className="react-router-link" to={globalState.isSignedIn ? '/' : '/signin'} onClick={handleLoginOrLogout}>{globalState.isSignedIn ? <SignInOutElem>SIGN OUT</SignInOutElem> : <SignInOutElem>SIGN IN</SignInOutElem>}</Link></li>
           <li><Link className="react-router-link" to={globalState.isSignedIn ? "/basket" : "/signin"}><i className="fas fa-shopping-basket nav-icon"></i></Link></li>
           <li><p className="nav-icon inline">CUR</p></li>  
           <li></li>

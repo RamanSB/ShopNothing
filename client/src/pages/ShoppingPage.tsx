@@ -61,35 +61,34 @@ const ShoppingPage = () => {
                 <div style={Object.assign({minWidth: "40%", border: "1px solid darkgray", margin: "24px 0 0 0"}, dividerStyles, {animationDelay: "0.6s"})}></div>
                 <div style={Object.assign({minWidth: "60%", border: "1px solid white", margin: "24px 0 0 0"}, dividerStyles, {animationDelay: "0.3s"})}></div>
                 <div style={Object.assign({minWidth: "80%", border: "1px solid darkgray", margin: "24px 0 48px 0"}, dividerStyles)}></div>
-
-            <CollectionHeader>Common Collection</CollectionHeader>
-            <div className="product-collection-container">
-                <ProductCard 
-                    price={25} 
-                    productName="Melted Ice"
-                    imgSrc={iceCube}
-                    description="Nature’s first green is gold,
-                    Her hardest hue to hold.
-                    Her early leaf’s a flower;
-                    But only so an hour.
-                    Then leaf subsides to leaf.
-                    So Eden sank to grief,
-                    So dawn goes down to day.
-                    Nothing gold can stay." />
-
-                <ProductCard 
-                    price={55} 
-                    productName="Empty Present"
-                    imgSrc={christmasGift}
-                    description="Nature’s first green is gold,
-                    Her hardest hue to hold.
-                    Her early leaf’s a flower;
-                    But only so an hour.
-                    Then leaf subsides to leaf.
-                    So Eden sank to grief,
-                    So dawn goes down to day.
-                    Nothing gold can stay." />
-            </div>
+                <CollectionHeader>Luxury Collection</CollectionHeader>
+                <div className="product-collection-container">
+                    <ProductCard 
+                        price={420} 
+                        productName="Golden Nugget"
+                        imgSrc={goldenNuggetProduct}
+                        description="Nature’s first green is gold,
+                        Her hardest hue to hold.
+                        Her early leaf’s a flower;
+                        But only so an hour.
+                        Then leaf subsides to leaf.
+                        So Eden sank to grief,
+                        So dawn goes down to day.
+                        Nothing gold can stay." />
+                    <ProductCard 
+                        price={999} 
+                        productName="Platinum Bars"
+                        imgSrc={platinumIngot}
+                        description="Nature’s first green is gold,
+                        Her hardest hue to hold.
+                        Her early leaf’s a flower;
+                        But only so an hour.
+                        Then leaf subsides to leaf.
+                        So Eden sank to grief,
+                        So dawn goes down to day.
+                        Nothing gold can stay." />
+                </div>
+           
             <div>
                 <div style={{minWidth: "20%", border: "1px solid white", margin: "0 0 0 0"}}></div>
                 <div style={{minWidth: "40%", border: "1px solid darkgray", margin: "24px 0 0 0"}}></div>
@@ -142,32 +141,33 @@ const ShoppingPage = () => {
                 <div style={{minWidth: "60%", border: "1px solid white", margin: "24px 0 0 0"}}></div>
                 <div style={{minWidth: "80%", border: "1px solid darkgray", margin: "24px 0 48px 0"}}></div>
             </div>
-            <CollectionHeader>Luxury Collection</CollectionHeader>
+            <CollectionHeader>Common Collection</CollectionHeader>
             <div className="product-collection-container">
-            <ProductCard 
-                price={420} 
-                productName="Golden Nugget"
-                imgSrc={goldenNuggetProduct}
-                description="Nature’s first green is gold,
-                Her hardest hue to hold.
-                Her early leaf’s a flower;
-                But only so an hour.
-                Then leaf subsides to leaf.
-                So Eden sank to grief,
-                So dawn goes down to day.
-                Nothing gold can stay." />
-            <ProductCard 
-                price={999} 
-                productName="Platinum Bars"
-                imgSrc={platinumIngot}
-                description="Nature’s first green is gold,
-                Her hardest hue to hold.
-                Her early leaf’s a flower;
-                But only so an hour.
-                Then leaf subsides to leaf.
-                So Eden sank to grief,
-                So dawn goes down to day.
-                Nothing gold can stay." />
+                <ProductCard 
+                    price={25} 
+                    productName="Melted Ice"
+                    imgSrc={iceCube}
+                    description="Nature’s first green is gold,
+                    Her hardest hue to hold.
+                    Her early leaf’s a flower;
+                    But only so an hour.
+                    Then leaf subsides to leaf.
+                    So Eden sank to grief,
+                    So dawn goes down to day.
+                    Nothing gold can stay." />
+
+                <ProductCard 
+                    price={55} 
+                    productName="Empty Present"
+                    imgSrc={christmasGift}
+                    description="Nature’s first green is gold,
+                    Her hardest hue to hold.
+                    Her early leaf’s a flower;
+                    But only so an hour.
+                    Then leaf subsides to leaf.
+                    So Eden sank to grief,
+                    So dawn goes down to day.
+                    Nothing gold can stay." />
             </div>
         </>
     );

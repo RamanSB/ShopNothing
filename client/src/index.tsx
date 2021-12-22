@@ -12,6 +12,7 @@ import BasketPage from './pages/BasketPage';
 
 const App = () => {
 
+  console.log(`App: App Functional Component`);
   return (
     <div id="app-container">
       <BrowserRouter>
@@ -33,12 +34,15 @@ const App = () => {
 
 
 const rootElem = document.getElementById('root');
-const GlobalStateWrappedApp = () => (
-  <>
-    <GlobalStateProvider>
-      <App/>
-    </GlobalStateProvider>
-  </>
-);
+const GlobalStateWrappedApp = () => {
+  console.log(`App: App Functional Component`);
+  return (
+    <>
+      <GlobalStateProvider>
+        <App/>
+      </GlobalStateProvider>
+    </>
+  );
+};
 
 ReactDOM.render(<GlobalStateWrappedApp/>,  rootElem);
