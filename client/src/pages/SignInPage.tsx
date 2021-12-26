@@ -1,12 +1,23 @@
 import React from "react";
 import { GlobalAppStateContext } from "../contexts/GlobalAppStateContext";
+import {useNavigate} from "react-router-dom";
 
 //ToDo: Form Validation (Front-end)
+const SIGNIN_ACTION = "SIGN IN";
+const SIGNUP_ACTION = "SIGN UP";
 
 const SignInPage = (props: any) => {
+    const navigate = useNavigate();
 
     const [state, setState] = React.useState({
-        "signUp": false
+        signUp: false,
+        formFields: {
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            phone: ""
+        }
     });
     const labelStyle = {
         fontFamily: "Montserrat", 
@@ -37,23 +48,47 @@ const SignInPage = (props: any) => {
 
     const handleSignIn = (event: React.MouseEvent<HTMLButtonElement>) => {
         setGlobalState((prevState: any) => {
-            if(true) { //auth is successful
-                return {
-                    ...prevState,
-                    isSignedIn: true
+            let isEmailFieldValid : boolean = validateFormFields(SIGNIN_ACTION);
+            if (isEmailFieldValid) {
+                // make request to signin (state.formFields.email state.formFields.password) use auth
+                if(true) { // auth is successful
+                    navigate("/");
+                    return {
+                        ...prevState,
+                        isSignedIn: true
+                    }
                 }
+            } else {
+                return prevState;
             }
-        })
+        }); 
     }
 
     const handleSignUp = (event: React.MouseEvent<HTMLButtonElement>) => {
         if (event.currentTarget.innerText === 'Submit') {
-            // Auth
             setState((prevState: any) => {
-                return {
-                ...prevState,
-                signUp: false
-            }})
+                let isFieldsValid : boolean = validateFormFields(SIGNUP_ACTION);
+                if (isFieldsValid) {
+                    let isUserValidatedByAuthService : boolean = true;// make request to signup (use an AuthService)
+                    if(isUserValidatedByAuthService) {
+                        return {
+                            ...prevState,
+                            signUp: !isUserValidatedByAuthService
+                        }
+                    } else {
+                        return {
+                            ...prevState,
+                            signUp: true
+                        }
+                    }
+                } else {
+                    // Error message to show user
+                    return {
+                        ...prevState,
+                        signUp: true
+                    }
+                }
+            });
         } else {
             setState((prevState: any) => {
                 return {
@@ -64,35 +99,71 @@ const SignInPage = (props: any) => {
         }
     }
 
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let formField = event.currentTarget.name;
+        let text = event.currentTarget.value;
+        console.log(`State: ${JSON.stringify(state)}`);
+        setState((prevState: any) => {
+            return (
+                {
+                    ...prevState,
+                    formFields: {
+                        ...prevState.formFields,
+                        [formField]: text
+                    }
+                }
+            );
+        });
+    }
+
+    const validateFormFields = (action : string) : boolean => {
+        if (action === SIGNUP_ACTION) {
+            let nameRegex : RegExp = /^[a-zA-Z]+$/;
+            let nameCriteriaSuccess : boolean = nameRegex.test(state.formFields.firstName) && nameRegex.test(state.formFields.lastName);
+            let emailRegex : RegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            let emailCriteriaSuccess : boolean = emailRegex.test(state.formFields.email);
+            let phoneRegex : RegExp = /^([^\wa-zA-Z]|\d)+$/;
+            let phoneCriteriaSuccess : boolean = phoneRegex.test(state.formFields.phone);
+            return phoneCriteriaSuccess && emailCriteriaSuccess && nameCriteriaSuccess;
+        } else if (action === SIGNIN_ACTION) {
+            let emailRegex : RegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            let emailCriteriaSuccess : boolean = emailRegex.test(state.formFields.email);
+            return emailCriteriaSuccess;
+        } else {
+            console.log(`Unrecognized action: ${action}`);
+            return false;
+        }
+    }
+
     return (
         <div id="signin-container">
             <h1 style={{fontFamily: "Montserrat", color: "white", textAlign: "center", fontSize: "3rem"}}>Nothing <i className="fas fa-mortar-pestle"></i></h1>
             <form style={{marginTop: "24px"}}>
                 {state.signUp ? (
                     <>
-                        <label style={labelStyle} htmlFor="email-field">First Name</label>
+                        <label style={labelStyle} htmlFor="first-name-field">First Name</label>
                         <br/>
-                        <input type="text" id="email-field" style={inputFieldStyle} placeholder='Enter your first name'></input>
+                        <input name="firstName" type="text" id="first-name-field" style={inputFieldStyle} placeholder='Enter your first name' onChange={handleInputChange} ></input>
                         <br/>
-                        <label style={labelStyle} htmlFor="email-field">Last Name</label>
+                        <label style={labelStyle} htmlFor="last-name-field">Last Name</label>
                         <br/>
-                        <input type="text" id="email-field" style={inputFieldStyle} placeholder='Enter your last name'></input>
+                        <input name="lastName" type="text" id="last-name-field" style={inputFieldStyle} placeholder='Enter your last name' onChange={handleInputChange} ></input>
                         <br/>
                     </>) : <></>
                 }
                 <label style={labelStyle} htmlFor="email-field">Email</label>
                 <br/>
-                <input type="text" id="email-field" style={inputFieldStyle} placeholder='Enter your email'></input>
+                <input name="email" type="text" id="email-field" style={inputFieldStyle} placeholder='Enter your email' onChange={handleInputChange}></input>
                 <br/>
                 <label style={labelStyle} htmlFor="password-field">Password</label>
                 <br/>
-                <input type="password" id="password-field" placeholder="Enter your password" style={inputFieldStyle}></input>
+                <input name="password" type="password" id="password-field" placeholder="Enter your password" style={inputFieldStyle} onChange={handleInputChange}></input>
                 <br/>
                 {state.signUp ? (
                     <>
                         <label style={labelStyle} htmlFor="phone-field">Phone</label>
                         <br/>
-                        <input type="tel" id="phone-field" style={inputFieldStyle} placeholder='Enter your phone #'></input>
+                        <input name="phone"type="tel" id="phone-field" style={inputFieldStyle} placeholder='Enter your phone #' onChange={handleInputChange}></input>
                         <br/>
                     </>
                 ) : <></>}

@@ -7,9 +7,9 @@ const MainPage = (props: any) => {
     return (
         <>
             <div id="landing-image"> 
-            <HeaderTitle/>
-            <QuoteBlock author="StackTraceCo" styles="void-one">Every luxury must be paid for, and everything is a luxury, starting with being in this world. In today's life, luxury is time and space. The future is the most expensive luxury in the world.</QuoteBlock>
-            <QuoteBlock author="Marc Jacobs" styles="void-two">Being anonymous is a great luxury. It’s a big loss to lose that. Mostly, the loss is the ability to observe others without being observed yourself.</QuoteBlock>
+              <HeaderTitle/>
+              <QuoteBlock author="StackTraceCo" styles="void-one">Every luxury must be paid for, and everything is a luxury, starting with being in this world. In today's life, luxury is time and space. The future is the most expensive luxury in the world.</QuoteBlock>
+              <QuoteBlock author="Marc Jacobs" styles="void-two">Being anonymous is a great luxury. It’s a big loss to lose that. Mostly, the loss is the ability to observe others without being observed yourself.</QuoteBlock>
             </div>
             <QuoteText>There is no greater luxury than the feeling of contentful lonliness.</QuoteText>
             <p style={{fontFamily: "Montserrat", margin: "0 0 36px 0", color: "white", fontSize: "1.5em"}}>Experience the ownership of Nothing.</p>

@@ -2,6 +2,7 @@ import React from "react";
 import { GlobalAppStateContext } from "../contexts/GlobalAppStateContext";
 import goldenNuggetImage from "../assets/images/gold-nugget.jpeg";
 import { useNavigate } from "react-router-dom";
+import staticProductData from '../static-data/product-data.json';
 
 
 /**
@@ -35,6 +36,10 @@ const BasketPage = (props: any) => {
 const BasketGrid = (props: any) => {
     const {globalState} = React.useContext(GlobalAppStateContext);
     let basketItems = globalState.basket;
+    let grandTotal = 0;
+    for (let itemName in basketItems) {
+        grandTotal += basketItems[itemName] * staticProductData.products.filter(data => data.name === itemName)[0].price
+    }
     return (
         <>
             <h2 style={{marginTop: "96px", alignSelf: "center", fontFamily: "Montserrat", letterSpacing: "0.08em", fontSize: "4rem", color: "white"}}>My Basket</h2>
@@ -42,21 +47,24 @@ const BasketGrid = (props: any) => {
                 <h1>Product</h1>
                 <h1>Description</h1>
                 <h1>Quantity</h1>
-                <h1>Price</h1>
+                <h1 style={{justifySelf: "center"}}>Price</h1>
                 {Object.keys(basketItems).map((itemName, idx) => {
+                    console.log(`Item Name: ${itemName}`);
+                    let productData = staticProductData.products.filter(data => data.name === itemName)[0];
+                    console.log(`Product Data Image Src: ${JSON.stringify(productData['imgSrc'])}`);
                     return (
                         <>
-                            <img alt="" width="200" src={goldenNuggetImage}/>
-                            <p>{basketItems['description']}</p>
+                            <img alt="Unavailable" width="200" src={productData['imgSrc']}/>
+                            <p>{productData['description']}</p>
                             <p style={{justifySelf: "center"}}>{basketItems[itemName]}</p>
-                            <p style={{justifySelf: "center"}}>{basketItems['price']}</p>
+                            <p style={{justifySelf: "center"}}>{productData['price']}</p>
                         </>
                     );
                 })}
                 <p></p>
                 <p></p>
                 <h2 style={{textDecoration: "none"}}>Grand Total</h2>
-                <h2>£2002</h2>
+                <h2 style={{justifySelf: "center"}}>£{grandTotal}</h2>
                 <CheckoutButton>Checkout</CheckoutButton>
             </div>
         </>
