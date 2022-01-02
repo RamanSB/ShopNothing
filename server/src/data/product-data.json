@@ -1,0 +1,53 @@
+{
+    "products": [
+        {
+            "name": "Platinum Bars",
+            "price": 2499,
+            "imgSrc": "../images/platinum-showdown.jpeg",
+            "description": "Ingots casted from the metal Platinum. With only 0.005 parts per million found in the Earth's crust, platinum is rare even by the strictest of standards.",
+            "collection": "Luxury"
+        },
+        {
+            "name": "Golden Nugget",
+            "price": 1499,
+            "imgSrc": "../images/gold-nugget.jpeg",
+            "description": "A rare golden nugget. Better than the cereal.",
+            "collection": "Luxury"
+        },
+        {
+            "name": "Ikea Sofa",
+            "price": 395,
+            "imgSrc": "../images/ikea-sofa.jpeg",
+            "description": "An aesthetic finnish made sofa from IKEA.",
+            "collection": "Standard"
+        },
+        {
+            "name": "Metal Pipe",
+            "price": 149,
+            "imgSrc": "../images/metal-pipe-products.jpeg",
+            "description": "Metal pipes, these are stiff. Make sure they are used for construction and not fighting.",
+            "collection": "Standard"
+        },
+        {
+            "name": "Gold Tap",
+            "price": 275,
+            "imgSrc": "../images/fohen-gold-product.jpeg",
+            "description": "A golden tap, tap water would sure taste great with this tap.",
+            "collection": "Standard"
+        },
+        {
+            "name": "Melted Ice",
+            "price": 14,
+            "imgSrc": "../images/product-ice-cube.jpeg",
+            "description": "Perfect to water down a glass of Brandy. Unfortunately it melted.",
+            "collection": "Common"
+        },
+        {
+            "name": "Empty Present",
+            "price": 99,
+            "imgSrc": "../images/christmas-gift.jpeg",
+            "description": "A surefire way to ruin a kids christmas! The grinch loves these!",
+            "collection": "Common"
+        }
+    ]
+}
