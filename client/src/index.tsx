@@ -6,8 +6,15 @@ import { NavBar } from './components/NavBar';
 import MainPage from './pages/MainPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ShoppingPage from './pages/ShoppingPage';
+import CheckoutSuccessPage from './pages/CheckoutSuccessPage';
 import SignInPage from './pages/SignInPage';
 import BasketPage from './pages/BasketPage';
+import CheckoutPage from './pages/CheckoutPage';
+import axios from 'axios';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import { useEffect, useState } from 'react';
+
 
 
 const App = () => {
@@ -20,6 +27,8 @@ const App = () => {
       <div id="main-page-container">
       
         <Routes>
+          <Route path="/checkout/success" element={<CheckoutSuccessPage/>}/>
+          <Route path="/checkout" element={<CheckoutPage/>}/>
           <Route path="/basket" element={<BasketPage/>}/>
           <Route path="/shop" element={<ShoppingPage/>}/>
           <Route path="/signin" element={<SignInPage/>}/>
@@ -33,16 +42,24 @@ const App = () => {
 }
 
 
-const rootElem = document.getElementById('root');
-const GlobalStateWrappedApp = () => {
-  console.log(`App: App Functional Component`);
-  return (
-    <>
-      <GlobalStateProvider>
-        <App/>
-      </GlobalStateProvider>
-    </>
-  );
-};
 
-ReactDOM.render(<GlobalStateWrappedApp/>,  rootElem);
+(async () => {
+  let { data }  = await axios.get("http://localhost:6942/stripe-config");
+  
+  const stripe = loadStripe(data);
+
+  const rootElem = document.getElementById('root');
+  const GlobalStateWrappedApp = () => {
+
+    return (
+      <>
+        <Elements stripe={stripe}>
+          <GlobalStateProvider>
+              <App/>
+          </GlobalStateProvider>
+        </Elements>     
+      </>
+    );
+  };
+  ReactDOM.render(<GlobalStateWrappedApp/>,  rootElem);
+})();

@@ -17,10 +17,6 @@ import staticProductData from '../static-data/product-data.json';
 const BasketPage = (props: any) => {
 
     const {globalState } = React.useContext(GlobalAppStateContext);
-    const basketPageStyle = {
-        width: "100%",
-        height: "100%"
-    }
     
     return (
         <div id="basket-page">
@@ -49,9 +45,7 @@ const BasketGrid = (props: any) => {
                 <h1>Quantity</h1>
                 <h1 style={{justifySelf: "center"}}>Price</h1>
                 {Object.keys(basketItems).map((itemName, idx) => {
-                    console.log(`Item Name: ${itemName}`);
                     let productData = staticProductData.products.filter(data => data.name === itemName)[0];
-                    console.log(`Product Data Image Src: ${JSON.stringify(productData['imgSrc'])}`);
                     return (
                         <>
                             <img alt="Unavailable" width="200" src={productData['imgSrc']}/>
@@ -68,7 +62,7 @@ const BasketGrid = (props: any) => {
                 <CheckoutButton>Checkout</CheckoutButton>
             </div>
         </>
-        );
+    );
 }
 
 const CheckoutButton = (props: any) => {

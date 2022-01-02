@@ -68,11 +68,11 @@
     }
     50% {
         border: 1px solid white;
-        box-shadow: "2px 2px 0px 0px #011627"
+        box-shadow: 2px 2px 0px 0px #011627
     }
     to {
         border: 2px solid white;
-        box-shadow: "4px 4px 0px 0px #011627";
+        box-shadow: 4px 4px 0px 0px #011627;
     }
 }
 
@@ -176,6 +176,7 @@
     min-height: 380px;
     background-size: "cover" 
 }
+
 .product-header {
     padding: 16px 32px 0 32px;
     display: flex;
@@ -272,7 +273,146 @@
     display: flex;
     flex-flow: column nowrap;
     flex: 1 1 auto;
-    width: 100%;
-    
+    width: 100%;    
 }
 
+#payment-form {
+    align-self: center;
+    width: 380px;
+    margin: 280px 0 0 0;
+    border: 1px solid var(--colorTertiary);
+    padding: 24px;
+}
+
+.payment-form-headers {
+    font-size: var(--largeFont);
+    font-family: var(--mainFont);
+    color: var(--colorTertiary);
+    text-shadow: 1px 2px var(--colorPrimary)
+}
+
+#payment-submit-btn {
+    width: 100%;
+    height: 40px;
+    margin: 16px 0 0 0;
+    font-size: 1.25em;
+    font-family: Montserrat;
+    padding: 16px;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    box-shadow: 4px 4px 0px 0px #011627;
+    letter-spacing: 0.08em;
+    animation-name: animate-shop-button;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#spinner {
+    border-radius: 50%;
+    border-top: 5px solid black;
+    border-right: none;
+    border-bottom: 5px solid white;
+    height: 200px;
+    width: 200px;
+    margin-top: 40%;
+    position: relative;
+    box-shadow: 1px 1px var(--colorPrimary);
+    animation-name: rotate-spinner;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: normal; 
+    opacity: 1;
+}
+
+#spinner > i {
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    transform: scale(2);
+    color: white;
+}
+
+@keyframes rotate-spinner {
+    from {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    50% {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 1;
+        transform: rotate(360deg);
+    }
+}
+
+.confirmation-heading {
+    margin: 120px 0 60px 0;
+    font-family: var(--mainFont);
+    font-size: 4em;
+    color: white;
+}
+
+#checkout-success-container > p {
+    margin-bottom: 10px;
+    color: white;
+    font-size: var(--largestFont);
+    font-family: var(--mainFont);
+}
+
+#item-summary-list {
+    margin: 20px 0 60px 0;
+    list-style-type: square;
+    color: var(--colorTertiary);
+    font-family: var(--mainFont);
+    font-size: var(--largeFont);
+}
+
+#thank-you-msg {
+    margin: 120px 0 0 0;
+    font-family: var(--quoteFont);
+    color: white;
+    font-size: 5rem;
+    animation-name: text-flicker;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-direction: reverse;
+}
+
+@keyframes text-flicker {
+    from {
+        color: indianred;
+    }
+    50% {
+        color: aquamarine;
+    }
+    to {
+        color: cornflowerblue;
+    }
+}
+
+#signup-toast {
+    background: var(--colorPrimary);
+    color: white;
+    border-radius: 12px;
+    padding: 16px;
+    opacity: 1;
+    animation-fill-mode: forwards;
+    font-family: var(--mainFont);
+    font-size: var(--largeFont);
+    animation-name: fade-out-toast;
+    animation-duration: 6s;
+    animation-direction: normal;
+    animation-iteration-count: 1;
+}
+
+@keyframes fade-out-toast {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

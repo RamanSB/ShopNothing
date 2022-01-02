@@ -1,6 +1,7 @@
 import React from "react";
 import { GlobalAppStateContext } from "../contexts/GlobalAppStateContext";
 import {useNavigate} from "react-router-dom";
+import AuthService from "../api/AuthService";
 
 //ToDo: Form Validation (Front-end)
 const SIGNIN_ACTION = "SIGN IN";
@@ -17,7 +18,8 @@ const SignInPage = (props: any) => {
             email: "",
             password: "",
             phone: ""
-        }
+        },
+        hasSuccessfullySignedUp: false
     });
     const labelStyle = {
         fontFamily: "Montserrat", 
@@ -50,6 +52,10 @@ const SignInPage = (props: any) => {
         setGlobalState((prevState: any) => {
             let isEmailFieldValid : boolean = validateFormFields(SIGNIN_ACTION);
             if (isEmailFieldValid) {
+                let response = AuthService.signInUser({
+                    email: state.formFields.email,
+                    password: state.formFields.password
+                });
                 // make request to signin (state.formFields.email state.formFields.password) use auth
                 if(true) { // auth is successful
                     navigate("/");
@@ -69,11 +75,20 @@ const SignInPage = (props: any) => {
             setState((prevState: any) => {
                 let isFieldsValid : boolean = validateFormFields(SIGNUP_ACTION);
                 if (isFieldsValid) {
-                    let isUserValidatedByAuthService : boolean = true;// make request to signup (use an AuthService)
+                    let isUserValidatedByAuthService : boolean = true;
+                    AuthService.signUpUser({
+                        firstName: "",
+                        lastName: "",
+                        email: "",
+                        password: "",
+                        phone: ""
+                    });
+                    // make request to signup (use an AuthService)
                     if(isUserValidatedByAuthService) {
                         return {
                             ...prevState,
-                            signUp: !isUserValidatedByAuthService
+                            signUp: !isUserValidatedByAuthService,
+                            hasSuccessfullySignedUp: true
                         }
                     } else {
                         return {
@@ -102,7 +117,6 @@ const SignInPage = (props: any) => {
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let formField = event.currentTarget.name;
         let text = event.currentTarget.value;
-        console.log(`State: ${JSON.stringify(state)}`);
         setState((prevState: any) => {
             return (
                 {
@@ -136,44 +150,50 @@ const SignInPage = (props: any) => {
     }
 
     return (
-        <div id="signin-container">
-            <h1 style={{fontFamily: "Montserrat", color: "white", textAlign: "center", fontSize: "3rem"}}>Nothing <i className="fas fa-mortar-pestle"></i></h1>
-            <form style={{marginTop: "24px"}}>
-                {state.signUp ? (
-                    <>
-                        <label style={labelStyle} htmlFor="first-name-field">First Name</label>
-                        <br/>
-                        <input name="firstName" type="text" id="first-name-field" style={inputFieldStyle} placeholder='Enter your first name' onChange={handleInputChange} ></input>
-                        <br/>
-                        <label style={labelStyle} htmlFor="last-name-field">Last Name</label>
-                        <br/>
-                        <input name="lastName" type="text" id="last-name-field" style={inputFieldStyle} placeholder='Enter your last name' onChange={handleInputChange} ></input>
-                        <br/>
-                    </>) : <></>
-                }
-                <label style={labelStyle} htmlFor="email-field">Email</label>
-                <br/>
-                <input name="email" type="text" id="email-field" style={inputFieldStyle} placeholder='Enter your email' onChange={handleInputChange}></input>
-                <br/>
-                <label style={labelStyle} htmlFor="password-field">Password</label>
-                <br/>
-                <input name="password" type="password" id="password-field" placeholder="Enter your password" style={inputFieldStyle} onChange={handleInputChange}></input>
-                <br/>
-                {state.signUp ? (
-                    <>
-                        <label style={labelStyle} htmlFor="phone-field">Phone</label>
-                        <br/>
-                        <input name="phone"type="tel" id="phone-field" style={inputFieldStyle} placeholder='Enter your phone #' onChange={handleInputChange}></input>
-                        <br/>
-                    </>
-                ) : <></>}
-            </form>
-            <div style={{display: "flex", flexFlow: "row nowrap", justifyContent: "space-between"}}>
-                <button style={signInUpButtonStyle} onClick={handleSignIn}>Sign In</button>
-                <button style={signInUpButtonStyle} onClick={handleSignUp}>{state.signUp ? "Submit" : "Sign Up"}</button>
+        <>
+            <div id="signin-container">
+                <h1 style={{fontFamily: "Montserrat", color: "white", textAlign: "center", fontSize: "3rem"}}>Nothing <i className="fas fa-mortar-pestle"></i></h1>
+                <form style={{marginTop: "24px"}}>
+                    {state.signUp ? (
+                        <>
+                            <label style={labelStyle} htmlFor="first-name-field">First Name</label>
+                            <br/>
+                            <input name="firstName" type="text" id="first-name-field" style={inputFieldStyle} placeholder='Enter your first name' onChange={handleInputChange} ></input>
+                            <br/>
+                            <label style={labelStyle} htmlFor="last-name-field">Last Name</label>
+                            <br/>
+                            <input name="lastName" type="text" id="last-name-field" style={inputFieldStyle} placeholder='Enter your last name' onChange={handleInputChange} ></input>
+                            <br/>
+                        </>) : <></>
+                    }
+                    <label style={labelStyle} htmlFor="email-field">Email</label>
+                    <br/>
+                    <input name="email" type="text" id="email-field" style={inputFieldStyle} placeholder='Enter your email' onChange={handleInputChange}></input>
+                    <br/>
+                    <label style={labelStyle} htmlFor="password-field">Password</label>
+                    <br/>
+                    <input name="password" type="password" id="password-field" placeholder="Enter your password" style={inputFieldStyle} onChange={handleInputChange}></input>
+                    <br/>
+                    {state.signUp ? (
+                        <>
+                            <label style={labelStyle} htmlFor="phone-field">Phone</label>
+                            <br/>
+                            <input name="phone"type="tel" id="phone-field" style={inputFieldStyle} placeholder='Enter your phone #' onChange={handleInputChange}></input>
+                            <br/>
+                        </>
+                    ) : <></>}
+                </form>
+                <div style={{display: "flex", flexFlow: "row nowrap", justifyContent: "space-between"}}>
+                    <button style={signInUpButtonStyle} onClick={handleSignIn}>Sign In</button>
+                    <button style={signInUpButtonStyle} onClick={handleSignUp}>{state.signUp ? "Submit" : "Sign Up"}</button>
+                </div>
+                {state.signUp ? <></> : <p style={forgotPasswordStyle} className="align-center">Did you forget your password?<br/>Click here to <a href="https://www.instagram.com">reset</a> your password.</p>}
             </div>
-            {state.signUp ? <></> : <p style={forgotPasswordStyle} className="align-center">Did you forget your password?<br/>Click here to <a href="https://www.instagram.com">reset</a> your password.</p>}
-        </div>
+            {state.hasSuccessfullySignedUp ? (
+            <div id="signup-toast">
+                <p>You have successfully signed up.</p>
+            </div>) : <></>}
+        </>
     )
 }
 

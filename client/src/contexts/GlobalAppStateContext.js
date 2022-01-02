@@ -17,10 +17,7 @@ const GlobalStateProvider = (props) => {
     const [globalState, setGlobalState] = useState({
         isSignedIn: false,
         currency: "",
-        basket: {
-            "Ikea Sofa": 2,
-            "Golden Nugget": 1
-        }
+        basket: {}
     });
 
     console.log(`[Context] GlobalState: ${JSON.stringify(globalState)}`);

@@ -32,7 +32,7 @@ const ProductCard = ({imgSrc, productName, price, description}: ProductType) => 
                 let existingBasket = prevState.basket;
                 setQty(0);
                 if (Object.keys(existingBasket).includes(productName)) {
-                    existingBasket[productName] +=1;
+                    existingBasket[productName] += qty;
                     return {
                         ...prevState,
                         basket: existingBasket
