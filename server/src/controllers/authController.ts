@@ -40,9 +40,12 @@ const signInUser = async (req: Request, res: Response) => {
             return res.status(404).send(`No account exists for user: ${user.email}`);
         }
         // Check if password is correct
-        const isPasswordValid = bcrypt.compare(user.password, user.password)
+        console.log(`Pasword entered: ${req.body.password}`);
+        console.log(`User password: ${user.password}`);
+        const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+        console.log(`IsPasswordValid: ${isPasswordValid}`);
         if (!isPasswordValid) {
-            return res.status(400).send("Invalid password");
+            return res.status(401).send("Invalid password");
         }
         // If password is correct and account exists, generate JWT to return back to client (which will be used to authorize subsequent requests).
         const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET_KEY);
