@@ -44,6 +44,8 @@ export const NavBar = () => {
       }
     }
 
+    console.log(`GlobalState SignedIn: ${globalState.isSignedIn}`);
+
     return (
       <div id="nav-bar" style={navBarStyle}>
         <ul id="nav-action-item-list" style={navItemListStyle}>

@@ -8,8 +8,8 @@ const SIGNIN_ACTION = "SIGN IN";
 const SIGNUP_ACTION = "SIGN UP";
 
 const SignInPage = (props: any) => {
+    
     const navigate = useNavigate();
-
     const [state, setState] = React.useState({
         signUp: false,
         formFields: {
@@ -21,6 +21,7 @@ const SignInPage = (props: any) => {
         },
         hasSuccessfullySignedUp: false
     });
+   
     const labelStyle = {
         fontFamily: "Montserrat", 
         color: "white",
@@ -45,90 +46,17 @@ const SignInPage = (props: any) => {
         justifySelf: "center"
       }
 
-    const signInUpButtonStyle = {backgroundColor: "#011627", color: "white", minWidth: "140px", padding: "12px", alignSelf: "flex-end", fontSize: "1.25em", fontFamily: "Montserrat"};
+    const signInUpButtonStyle = {
+        backgroundColor: "#011627",
+        color: "white",
+        minWidth: "140px",
+        padding: "12px",
+        alignSelf: "flex-end",
+        fontSize: "1.25em",
+        fontFamily: "Montserrat"
+      };
+    
     const { setGlobalState } = React.useContext(GlobalAppStateContext);
-
-    const handleSignIn = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setGlobalState((prevState: any) => {
-            let isEmailFieldValid : boolean = validateFormFields(SIGNIN_ACTION);
-            if (isEmailFieldValid) {
-                let response = AuthService.signInUser({
-                    email: state.formFields.email,
-                    password: state.formFields.password
-                });
-                // make request to signin (state.formFields.email state.formFields.password) use auth
-                if(true) { // auth is successful
-                    navigate("/");
-                    return {
-                        ...prevState,
-                        isSignedIn: true
-                    }
-                }
-            } else {
-                return prevState;
-            }
-        }); 
-    }
-
-    const handleSignUp = (event: React.MouseEvent<HTMLButtonElement>) => {
-        if (event.currentTarget.innerText === 'Submit') {
-            setState((prevState: any) => {
-                let isFieldsValid : boolean = validateFormFields(SIGNUP_ACTION);
-                if (isFieldsValid) {
-                    let isUserValidatedByAuthService : boolean = true;
-                    AuthService.signUpUser({
-                        firstName: "",
-                        lastName: "",
-                        email: "",
-                        password: "",
-                        phone: ""
-                    });
-                    // make request to signup (use an AuthService)
-                    if(isUserValidatedByAuthService) {
-                        return {
-                            ...prevState,
-                            signUp: !isUserValidatedByAuthService,
-                            hasSuccessfullySignedUp: true
-                        }
-                    } else {
-                        return {
-                            ...prevState,
-                            signUp: true
-                        }
-                    }
-                } else {
-                    // Error message to show user
-                    return {
-                        ...prevState,
-                        signUp: true
-                    }
-                }
-            });
-        } else {
-            setState((prevState: any) => {
-                return {
-                    ...prevState,
-                    "signUp": true 
-                }
-            });
-        }
-    }
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let formField = event.currentTarget.name;
-        let text = event.currentTarget.value;
-        setState((prevState: any) => {
-            return (
-                {
-                    ...prevState,
-                    formFields: {
-                        ...prevState.formFields,
-                        [formField]: text
-                    }
-                }
-            );
-        });
-    }
 
     const validateFormFields = (action : string) : boolean => {
         if (action === SIGNUP_ACTION) {
@@ -148,6 +76,96 @@ const SignInPage = (props: any) => {
             return false;
         }
     }
+
+    const handleSignIn = async (event: React.MouseEvent<HTMLButtonElement>) => {
+
+        let isEmailFieldValid : boolean = validateFormFields(SIGNIN_ACTION);
+        let response : any = undefined;
+        if (isEmailFieldValid) {
+            response = await AuthService.signInUser({
+                email: state.formFields.email,
+                password: state.formFields.password
+            });
+        }
+        console.log(`Response from [SignIn] : ${JSON.stringify(response)}`)
+        setGlobalState((prevState: any) => {
+            if (!response) {
+                return prevState;
+            } else if (response.status === 200) {
+                navigate("/");
+                return {
+                    ...prevState,
+                    isSignedIn: true
+                }
+            } else {
+                return prevState;
+            }
+        }); 
+    }
+
+    const handleSignUp = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        if (event.currentTarget.innerText.toLowerCase() === 'submit') {
+            let isFieldsValid : boolean = validateFormFields(SIGNUP_ACTION);
+            let response: any = undefined;
+            if (isFieldsValid) {
+                response = await AuthService.signUpUser({
+                    firstName: state.formFields.firstName,
+                    lastName: state.formFields.lastName,
+                    email: state.formFields.email,
+                    password: state.formFields.password,
+                    phone: state.formFields.phone
+                });
+            }
+            
+            console.log(`Response: ${JSON.stringify(response)}`);
+            setState((prevState: any) => {
+                if (!response) {
+                    return {
+                        ...prevState,
+                        signUp: true
+                    }
+                } else if (response.status === 201) {
+                    return {
+                        ...prevState,
+                        signUp: false,
+                        hasSuccessfullySignedUp: true
+                    }
+                } else {
+                    console.log(`Something definetly went wrong...`);
+                    return {
+                        ...prevState,
+                        signUp: true
+                    }
+                }
+            });
+        } else {
+            console.log(`Sign up button clicked`);
+            setState(prevState => {
+                return ({
+                    ...prevState,
+                    signUp: true
+                })
+            })
+        }
+    }
+    
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let formField = event.currentTarget.name;
+        let text = event.currentTarget.value;
+        setState((prevState: any) => {
+            return (
+                {
+                    ...prevState,
+                    formFields: {
+                        ...prevState.formFields,
+                        [formField]: text
+                    }
+                }
+            );
+        });
+    }
+
 
     return (
         <>
