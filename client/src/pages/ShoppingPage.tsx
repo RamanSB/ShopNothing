@@ -7,6 +7,9 @@ import goldTap from '../assets/images/fohen-gold-product.jpeg';
 import metalPipe from "../assets/images/metal-pipe-products.jpeg";
 import ikeaSofa from "../assets/images/ikea-sofa.jpeg";
 import ProductCard from "../components/ProductCard";
+import { useState, useLayoutEffect } from 'react';
+import ProductService from '../api/ProductService';
+import { Product } from '../types/Product';
 
 const headingStyle = {
     fontFamily: "Montserrat",
@@ -50,6 +53,18 @@ const dividerStyles = {
 }
 
 const ShoppingPage = () => {
+    
+    let [shoppingState, setShoppingState] = useState([]);
+
+    useLayoutEffect(() => {
+        (async function fetchData(){
+            let response = await ProductService.getAllProducts();
+            console.log(`Useful JS Functional programming methods: ${response}`);
+            setShoppingState(response);
+        })();
+    }, []);
+    
+
     return (
         <>
             <div style={{"margin": "96px 0 0 0"}}>
@@ -63,30 +78,14 @@ const ShoppingPage = () => {
                 <div style={Object.assign({minWidth: "80%", border: "1px solid darkgray", margin: "24px 0 48px 0"}, dividerStyles)}></div>
                 <CollectionHeader>Luxury Collection</CollectionHeader>
                 <div className="product-collection-container">
-                    <ProductCard 
-                        price={420} 
-                        productName="Golden Nugget"
-                        imgSrc={goldenNuggetProduct}
-                        description="Nature’s first green is gold,
-                        Her hardest hue to hold.
-                        Her early leaf’s a flower;
-                        But only so an hour.
-                        Then leaf subsides to leaf.
-                        So Eden sank to grief,
-                        So dawn goes down to day.
-                        Nothing gold can stay." />
-                    <ProductCard 
-                        price={999} 
-                        productName="Platinum Bars"
-                        imgSrc={platinumIngot}
-                        description="Nature’s first green is gold,
-                        Her hardest hue to hold.
-                        Her early leaf’s a flower;
-                        But only so an hour.
-                        Then leaf subsides to leaf.
-                        So Eden sank to grief,
-                        So dawn goes down to day.
-                        Nothing gold can stay." />
+                {shoppingState
+                        .filter((product: Product) => product.collectionName === 'Luxury')
+                        .map((product: Product) => <ProductCard 
+                                                        price={product.price} 
+                                                        productName={product.name} 
+                                                        imgSrc={product.imgSrc} 
+                                                        description={product.description}/>)}
+                    
                 </div>
            
             <div>
@@ -98,42 +97,13 @@ const ShoppingPage = () => {
 
             <CollectionHeader>Standard Collection</CollectionHeader>
             <div className="product-collection-container">
-            <ProductCard 
-                price={350} 
-                productName="Empty Sofa"
-                imgSrc={ikeaSofa}
-                description="Nature’s first green is gold,
-                Her hardest hue to hold.
-                Her early leaf’s a flower;
-                But only so an hour.
-                Then leaf subsides to leaf.
-                So Eden sank to grief,
-                So dawn goes down to day.
-                Nothing gold can stay." />
-            <ProductCard 
-                price={239} 
-                productName="Gold Tap"
-                imgSrc={goldTap}
-                description="Nature’s first green is gold,
-                Her hardest hue to hold.
-                Her early leaf’s a flower;
-                But only so an hour.
-                Then leaf subsides to leaf.
-                So Eden sank to grief,
-                So dawn goes down to day.
-                Nothing gold can stay." />
-            <ProductCard 
-                price={129} 
-                productName="Metal Pipe"
-                imgSrc={metalPipe}
-                description="Nature’s first green is gold,
-                Her hardest hue to hold.
-                Her early leaf’s a flower;
-                But only so an hour.
-                Then leaf subsides to leaf.
-                So Eden sank to grief,
-                So dawn goes down to day.
-                Nothing gold can stay." />
+                {shoppingState
+                    .filter((product: Product) => product.collectionName === 'Standard')
+                    .map((product: Product) => <ProductCard 
+                                                    price={product.price}
+                                                    productName={product.name}
+                                                    imgSrc={product.imgSrc}
+                                                    description={product.description}/>)}
             </div>
             <div>
                 <div style={{minWidth: "20%", border: "1px solid white", margin: "0 0 0 0"}}></div>
@@ -143,31 +113,13 @@ const ShoppingPage = () => {
             </div>
             <CollectionHeader>Common Collection</CollectionHeader>
             <div className="product-collection-container">
-                <ProductCard 
-                    price={25} 
-                    productName="Melted Ice"
-                    imgSrc={iceCube}
-                    description="Nature’s first green is gold,
-                    Her hardest hue to hold.
-                    Her early leaf’s a flower;
-                    But only so an hour.
-                    Then leaf subsides to leaf.
-                    So Eden sank to grief,
-                    So dawn goes down to day.
-                    Nothing gold can stay." />
-
-                <ProductCard 
-                    price={55} 
-                    productName="Empty Present"
-                    imgSrc={christmasGift}
-                    description="Nature’s first green is gold,
-                    Her hardest hue to hold.
-                    Her early leaf’s a flower;
-                    But only so an hour.
-                    Then leaf subsides to leaf.
-                    So Eden sank to grief,
-                    So dawn goes down to day.
-                    Nothing gold can stay." />
+                {shoppingState
+                    .filter((product: Product) => product.collectionName === 'Common')
+                    .map((product: Product) => <ProductCard 
+                                                    price={product.price}
+                                                    productName={product.name}
+                                                    imgSrc={product.imgSrc}
+                                                    description={product.description}/>)}
             </div>
         </>
     );

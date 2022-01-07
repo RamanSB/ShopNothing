@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GlobalAppStateContext } from "../contexts/GlobalAppStateContext";
 import {useNavigate} from "react-router-dom";
 import AuthService from "../api/AuthService";
@@ -19,8 +19,19 @@ const SignInPage = (props: any) => {
             password: "",
             phone: ""
         },
-        hasSuccessfullySignedUp: false
+        hasSuccessfullySignedUp: false,
+        failedSignIn: false
     });
+
+    useEffect(() => {
+        console.log(`Inside the effect: [FailedSignin:${state.failedSignIn}]`);
+        setTimeout(() => setState(prevState => {
+            return ({
+                ...prevState,
+                failedSignIn: false
+            })
+        }), 4000);
+    }, [state.failedSignIn])
    
     const labelStyle = {
         fontFamily: "Montserrat", 
@@ -87,18 +98,24 @@ const SignInPage = (props: any) => {
                 password: state.formFields.password
             });
         }
+        if (!response) {
+            setState(prevLocalState => {
+                return ({...prevLocalState, failedSignIn: true});
+            })
+        }
         console.log(`Response from [SignIn] : ${JSON.stringify(response)}`)
         setGlobalState((prevState: any) => {
             if (!response) {
-                return prevState;
+                return {...prevState}
             } else if (response.status === 200) {
                 navigate("/");
                 return {
                     ...prevState,
-                    isSignedIn: true
+                    isSignedIn: true,
+                    user: state.formFields.email
                 }
             } else {
-                return prevState;
+                return {...prevState}
             }
         }); 
     }
@@ -166,10 +183,10 @@ const SignInPage = (props: any) => {
         });
     }
 
-
+    let containerStyle = `signin-container ${state.failedSignIn ? "failed-signin" : ""}`
     return (
         <>
-            <div id="signin-container">
+            <div className={containerStyle}>
                 <h1 style={{fontFamily: "Montserrat", color: "white", textAlign: "center", fontSize: "3rem"}}>Nothing <i className="fas fa-mortar-pestle"></i></h1>
                 <form style={{marginTop: "24px"}}>
                     {state.signUp ? (
@@ -208,9 +225,12 @@ const SignInPage = (props: any) => {
                 {state.signUp ? <></> : <p style={forgotPasswordStyle} className="align-center">Did you forget your password?<br/>Click here to <a href="https://www.instagram.com">reset</a> your password.</p>}
             </div>
             {state.hasSuccessfullySignedUp ? (
-            <div id="signup-toast">
+            <div className="sign-toast">
                 <p>You have successfully signed up.</p>
             </div>) : <></>}
+            {state.failedSignIn ? <div className="sign-toast">
+                <p>Incorrect Email or Password</p>
+            </div> : <></>}
         </>
     )
 }

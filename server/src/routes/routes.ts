@@ -1,6 +1,7 @@
 import express from 'express';
 import stripeController from '../controllers/stripeController';
 import authController from '../controllers/authController';
+import productController from '../controllers/productController';
 
 const router = express.Router();
 
@@ -19,4 +20,13 @@ router.route('/signup')
 router.route('/signin')
     .post(authController.signInUser);
 
+router.route('/signout')
+    .get(authController.signOutUser);
+
+router.route('/protected')
+    .get(authController.mockProtectedRouteExhibition);
+
+router.route('/products')
+    .get(productController.getAllProducts);
+    
 export default router;

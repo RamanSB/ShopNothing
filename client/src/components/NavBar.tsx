@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import AuthService from '../api/AuthService';
 import { GlobalAppStateContext } from '../contexts/GlobalAppStateContext';
 
 // ToDo: Handle currency (Show Modal when currency is selected + include currency field in global state context).
@@ -37,6 +38,7 @@ export const NavBar = () => {
 
     const handleLoginOrLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
       if (event.currentTarget.innerText === 'SIGN OUT') {
+        AuthService.signOutUser(globalState.user)
         setGlobalState({
           ...globalState,
           isSignedIn: false
@@ -44,7 +46,7 @@ export const NavBar = () => {
       }
     }
 
-    console.log(`GlobalState SignedIn: ${globalState.isSignedIn}`);
+    console.log(`GlobalState SignedIn: ${globalState.isSignedIn}`)
 
     return (
       <div id="nav-bar" style={navBarStyle}>

@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import mongoose from 'mongoose';
 import User from '../models/User';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
@@ -62,4 +61,18 @@ const signInUser = async (req: Request, res: Response) => {
     }
 }
 
-export default { signUpUser, signInUser }
+const signOutUser = async (req: Request, res: Response) => {
+    console.log(`[Server] Signing out user...`);
+    return res.clearCookie('jsonwebtoken').status(200).json({message: "Successfully signed out."})
+}
+
+
+const mockProtectedRouteExhibition = (req: Request, res: Response) => {
+    if (!req.cookies.jsonwebtoken) {
+        return res.status(401).send("Cookie is not present, user is unauthorized");
+    } else {
+        console.log(`Nice cookie`);
+    }
+}
+
+export default { signUpUser, signInUser, signOutUser, mockProtectedRouteExhibition }

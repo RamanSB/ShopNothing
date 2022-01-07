@@ -1,6 +1,7 @@
 import QuoteBlock from "../components/QuoteBlock";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
+import AuthService from "../api/AuthService";
 
 
 const MainPage = (props: any) => {
@@ -17,7 +18,7 @@ const MainPage = (props: any) => {
             <Link to="shop"><Button>SHOP</Button></Link>
             <br/><br/><br/><br/>
             <p style={{fontFamily: "Montserrat", margin: "0 0 36px 0", color: "white", fontSize: "1.5em"}}>View the Nothing Collective at global art exhibitions.</p>
-            <Button>EXHIBITION</Button>
+            <Button eventHandler={() => {AuthService.invokeMockRoute()}}>EXHIBITION</Button>
         </>
     );
 }

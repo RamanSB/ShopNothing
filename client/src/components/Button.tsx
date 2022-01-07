@@ -20,7 +20,7 @@ const Button = (props: any) => {
     };
   
     return (
-      <button style={shopButtonStyle}>{props.children}</button>
+      <button onClick={props.eventHandler} style={shopButtonStyle}>{props.children}</button>
     )
   }
 

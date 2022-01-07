@@ -236,7 +236,7 @@
     text-decoration-color: none;
 }
 
-#signin-container {
+.signin-container {
     padding: 64px;
     margin: 240px;
     display: flex;
@@ -393,7 +393,7 @@
     }
 }
 
-#signup-toast {
+.sign-toast {
     background: var(--colorPrimary);
     color: white;
     border-radius: 12px;
@@ -414,5 +414,22 @@
     }
     to {
         opacity: 0;
+    }
+}
+
+.failed-signin {
+    animation-name: incorrect-password;
+    animation-duration: 4s;
+    animation-direction: normal;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes incorrect-password {
+    from {
+        background-color: red;
+    }
+    to {
+        background-color: transparent;
     }
 }
