@@ -59,7 +59,6 @@ const ShoppingPage = () => {
     useLayoutEffect(() => {
         (async function fetchData(){
             let response = await ProductService.getAllProducts();
-            console.log(`Useful JS Functional programming methods: ${response}`);
             setShoppingState(response);
         })();
     }, []);

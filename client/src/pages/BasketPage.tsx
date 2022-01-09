@@ -1,24 +1,15 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { GlobalAppStateContext } from "../contexts/GlobalAppStateContext";
 import { useNavigate } from "react-router-dom";
-import staticProductData from '../static-data/product-data.json';
 import { QuantityButton } from "../components/QuantityButton";
 import { Link } from "react-router-dom";
-
-
-/**
- * If the global app state context has an empty map for baskets, we will render, "Your basket is empty, click here to add some products". Otherwise
- * render a grid that has columns:
- * - Product/Image
- * - Quantity
- * - Price
- */
+import ProductService from "../api/ProductService";
+import { Product } from "../types/Product";
 
 
 const BasketPage = (props: any) => {
-
-    const {globalState } = React.useContext(GlobalAppStateContext);
-    console.log(`Basket: ${JSON.stringify(globalState.basket)}`)
+    
+    const { globalState } = React.useContext(GlobalAppStateContext);    
     return (
         <div id="basket-page">
             {JSON.stringify(globalState.basket) === "{}" ? 
@@ -30,11 +21,21 @@ const BasketPage = (props: any) => {
 }
 
 const BasketGrid = (props: any) => {
+    
+    let [basketState, setBasketState] : [any, Function] = React.useState([]);
+    
+    useLayoutEffect(() => {
+        (async function fetchData(){
+            let response = await ProductService.getAllProducts();
+            setBasketState(response);
+        })();
+    }, []);
+
     const {globalState} = React.useContext(GlobalAppStateContext);
     let basketItems = globalState.basket;
     let grandTotal = 0;
     for (let itemName in basketItems) {
-        grandTotal += basketItems[itemName] * staticProductData.products.filter(data => data.name === itemName)[0].price
+        grandTotal += basketItems[itemName] * basketState.filter((data: Product) => data.name === itemName)[0]?.price
     }
     return (
         <>
@@ -45,18 +46,18 @@ const BasketGrid = (props: any) => {
                 <h1>Quantity</h1>
                 <h1 style={{justifySelf: "center"}}>Price</h1>
                 {Object.keys(basketItems).map((itemName, idx) => {
-                    let productData = staticProductData.products.filter(data => data.name === itemName)[0];
+                    let productData: any = basketState.filter((product: Product) => product.name === itemName)[0];
                     return (
                         basketItems[itemName] !== 0 ? 
                         <>
-                            <img alt="Unavailable" width="200" src={productData['imgSrc']}/>
-                            <p style={{alignSelf: "center"}}>{productData['description']}</p>
+                            <img alt="Unavailable" width="200" src={productData?.imgSrc}/>
+                            <p style={{alignSelf: "center"}}>{productData?.description}</p>
                             <div className="quantity-column">
-                                <QuantityButton type="decrement" productName={productData['name']}><i className="fas fa-minus-circle fa-2x"></i></QuantityButton>
+                                <QuantityButton type="decrement" productName={productData?.name}><i className="fas fa-minus-circle fa-2x"></i></QuantityButton>
                                 <p style={{justifySelf: "center", margin: "0 12px 0 12px"}}>{basketItems[itemName]}</p>
-                                <QuantityButton type="increment" productName={productData['name']}><i className="fas fa-plus-circle fa-2x"></i></QuantityButton>
+                                <QuantityButton type="increment" productName={productData?.name}><i className="fas fa-plus-circle fa-2x"></i></QuantityButton>
                             </div>
-                            <p style={{justifySelf: "center", alignSelf: "center"}}>{productData['price']}</p>
+                            <p style={{justifySelf: "center", alignSelf: "center"}}>{productData?.price}</p>
                         </> : <></>
                     );
                 })}
@@ -71,6 +72,7 @@ const BasketGrid = (props: any) => {
 }
 
 const CheckoutButton = (props: any) => {
+    const { globalState } = React.useContext(GlobalAppStateContext);
     const checkoutButtonStyle = {
         gridColumnStart: 1,
         gridColumnEnd: 5,
@@ -87,9 +89,13 @@ const CheckoutButton = (props: any) => {
         animationIterationCount: "infinite",
         animationDirection: "alternate",
         cursor: "pointer"
-    }
+    };
+
     let navigate = useNavigate();
-    return (<button style={checkoutButtonStyle} onClick={() => navigate('/checkout')}>{props.children}</button>)
+    let basket = globalState.basket;
+    const orderQtySet = new Set(Object.values(basket));
+    let shouldDisableCheckoutButton : boolean = (orderQtySet.size === 1) && orderQtySet.values().next().value === 0;
+    return (<button style={checkoutButtonStyle} disabled={shouldDisableCheckoutButton} onClick={() => navigate('/checkout')}>{props.children}</button>)
 }
 
 
