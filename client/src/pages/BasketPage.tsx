@@ -1,8 +1,9 @@
 import React from "react";
 import { GlobalAppStateContext } from "../contexts/GlobalAppStateContext";
-import goldenNuggetImage from "../assets/images/gold-nugget.jpeg";
 import { useNavigate } from "react-router-dom";
 import staticProductData from '../static-data/product-data.json';
+import { QuantityButton } from "../components/QuantityButton";
+import { Link } from "react-router-dom";
 
 
 /**
@@ -17,14 +18,13 @@ import staticProductData from '../static-data/product-data.json';
 const BasketPage = (props: any) => {
 
     const {globalState } = React.useContext(GlobalAppStateContext);
-    
+    console.log(`Basket: ${JSON.stringify(globalState.basket)}`)
     return (
         <div id="basket-page">
-            {Object.is(globalState.basket, {}) ? 
-            <div>
-                <p>Your basket is empty. Click here to add some products.</p>
-            </div> : <BasketGrid/>}
-            
+            {JSON.stringify(globalState.basket) === "{}" ? 
+            (<div className="empty-basket-container">
+                <p>Your basket is empty.<br/> Click <Link to="/shop">here</Link> to add some products.</p>
+            </div>) : <BasketGrid/>}  
         </div>
     );
 }
@@ -47,12 +47,17 @@ const BasketGrid = (props: any) => {
                 {Object.keys(basketItems).map((itemName, idx) => {
                     let productData = staticProductData.products.filter(data => data.name === itemName)[0];
                     return (
+                        basketItems[itemName] !== 0 ? 
                         <>
                             <img alt="Unavailable" width="200" src={productData['imgSrc']}/>
-                            <p>{productData['description']}</p>
-                            <p style={{justifySelf: "center"}}>{basketItems[itemName]}</p>
-                            <p style={{justifySelf: "center"}}>{productData['price']}</p>
-                        </>
+                            <p style={{alignSelf: "center"}}>{productData['description']}</p>
+                            <div className="quantity-column">
+                                <QuantityButton type="decrement" productName={productData['name']}><i className="fas fa-minus-circle fa-2x"></i></QuantityButton>
+                                <p style={{justifySelf: "center", margin: "0 12px 0 12px"}}>{basketItems[itemName]}</p>
+                                <QuantityButton type="increment" productName={productData['name']}><i className="fas fa-plus-circle fa-2x"></i></QuantityButton>
+                            </div>
+                            <p style={{justifySelf: "center", alignSelf: "center"}}>{productData['price']}</p>
+                        </> : <></>
                     );
                 })}
                 <p></p>

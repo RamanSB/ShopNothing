@@ -25,10 +25,10 @@
             "description": "Metal pipes, these are stiff. Make sure they are used for construction and not fighting." 
         },
         {
-            "name": "Gold Tap",
-            "price": 275,
-            "imgSrc": "../images/fohen-gold-product.jpeg",
-            "description": "A golden tap, tap water would sure taste great with this tap."
+            "name": "Solana",
+            "price": 115,
+            "imgSrc": "../images/solana.png",
+            "description": "A cryptocurrency token known as Solana. Who knows what this could be worth in 2 years?"
         },
         {
             "name": "Melted Ice",
@@ -42,6 +42,5 @@
             "imgSrc": "../images/christmas-gift.jpeg",
             "description": "A surefire way to ruin a kids christmas! The grinch loves these!"
         }
-    
     ]
 }
