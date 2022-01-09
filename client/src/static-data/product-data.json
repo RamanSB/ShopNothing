@@ -2,7 +2,7 @@
     "products": [
         {
             "name": "Platinum Bars",
-            "price": 2500,
+            "price": 2000,
             "imgSrc": "../images/platinum-showdown.jpeg",
             "description": "Ingots casted from the metal Platinum. With only 0.005 parts per million found in the Earth's crust, platinum is rare even by the strictest of standards."
         },
