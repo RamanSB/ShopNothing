@@ -1,24 +1,25 @@
-import {CardElement} from '@stripe/react-stripe-js';    
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import axios from 'axios';import { useEffect, useState, useContext } from 'react';
+import PaymentService from '../api/PaymentService';
+import { GlobalAppStateContext } from '../contexts/GlobalAppStateContext';
+
 
 const CheckoutPage = () => {
     
     const [loading, isLoading] = useState(true);
+    const { globalState } = useContext(GlobalAppStateContext);
 
     useEffect(() => {
         (async function(){
             try {
-                let res = await axios.post("http://localhost:6942/create-checkout-session");
+                let res = await PaymentService.makePayment(globalState.lineItems);
                 console.log(`Response: ${JSON.stringify(res)}`);
                 isLoading(false);
-                window.location = res.data.url;
+                window.location = res?.data.url;
             } catch (err) {
                 console.log(`Error: ${JSON.stringify(err)}`);
             }
         })();
-        
-    }, []);
+    }, [globalState.lineItems]);
 
     if (loading) {
         return <Spinner/>

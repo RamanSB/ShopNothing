@@ -1,11 +1,4 @@
 import CollectionHeader from '../components/CollectionHeader';
-import goldenNuggetProduct from '../assets/images/gold-nugget.jpeg';
-import christmasGift from '../assets/images/christmas-gift.jpeg';
-import iceCube from '../assets/images/product-ice-cube.jpeg';
-import platinumIngot from '../assets/images/platinum-showdown.jpeg';
-import goldTap from '../assets/images/fohen-gold-product.jpeg';
-import metalPipe from "../assets/images/metal-pipe-products.jpeg";
-import ikeaSofa from "../assets/images/ikea-sofa.jpeg";
 import ProductCard from "../components/ProductCard";
 import { useState, useLayoutEffect } from 'react';
 import ProductService from '../api/ProductService';

@@ -5,6 +5,7 @@ import { QuantityButton } from "../components/QuantityButton";
 import { Link } from "react-router-dom";
 import ProductService from "../api/ProductService";
 import { Product } from "../types/Product";
+import { StripePaymentItemFormat } from "../types/StripePaymentItemFormat";
 
 
 const BasketPage = (props: any) => {
@@ -65,14 +66,14 @@ const BasketGrid = (props: any) => {
                 <p></p>
                 <h2 style={{textDecoration: "none"}}>Grand Total</h2>
                 <h2 style={{justifySelf: "center"}}>£{grandTotal}</h2>
-                <CheckoutButton>Checkout</CheckoutButton>
+                <CheckoutButton priceData={basketState}>Checkout</CheckoutButton>
             </div>
         </>
     );
 }
 
 const CheckoutButton = (props: any) => {
-    const { globalState } = React.useContext(GlobalAppStateContext);
+    const { globalState, setGlobalState } = React.useContext(GlobalAppStateContext);
     const checkoutButtonStyle = {
         gridColumnStart: 1,
         gridColumnEnd: 5,
@@ -92,10 +93,48 @@ const CheckoutButton = (props: any) => {
     };
 
     let navigate = useNavigate();
+    const priceData: Array<PriceData> = props.priceData.map((productData: any) : PriceData => {
+        delete productData._id;
+        delete productData.imgSrc;
+        delete productData.collectionName
+        delete productData.description
+        return productData;
+    });
+
     let basket = globalState.basket;
     const orderQtySet = new Set(Object.values(basket));
     let shouldDisableCheckoutButton : boolean = (orderQtySet.size === 1) && orderQtySet.values().next().value === 0;
-    return (<button style={checkoutButtonStyle} disabled={shouldDisableCheckoutButton} onClick={() => navigate('/checkout')}>{props.children}</button>)
+    let lineItems : Array<StripePaymentItemFormat> = [];
+    if (!shouldDisableCheckoutButton) {
+        lineItems = constructLineItems(basket, priceData);
+    }
+
+    return (<button style={checkoutButtonStyle} disabled={shouldDisableCheckoutButton} onClick={() => { 
+        setGlobalState((prevState: any) => ({...prevState, lineItems: lineItems}))
+        navigate('/checkout')
+        }}>
+            {props.children}
+        </button>)
+}
+
+function constructLineItems(basket: any, priceData: Array<PriceData>) : Array<StripePaymentItemFormat> {
+    return Object.entries(basket).map((keyVal, val) => (
+        {
+            price_data: {
+                currency: 'gbp',
+                product_data: {
+                    name: keyVal[0]
+                },
+                unit_amount: priceData.filter(product => product.name === keyVal[0]).reduce((prevPrice, currentPrice) => currentPrice, {price: 0})?.price
+            },
+            quantity: val
+        }
+    ));
+}
+
+interface PriceData {
+    name: string;
+    price: number;
 }
 
 
