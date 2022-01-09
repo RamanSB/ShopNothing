@@ -433,3 +433,28 @@
         background-color: transparent;
     }
 }
+
+.quantity-column {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+}
+
+.quantity-column > button {
+    background-color: transparent;
+    border: none;
+    color: var(--colorTertiary);
+}
+
+
+.empty-basket-container {
+    margin: 400px auto 0 auto;
+    font-size: 2rem;
+    font-family: var(--mainFont);
+    color: white;
+    font-size: 2.5em;
+    text-align: center;
+    line-height: 5rem;
+}
