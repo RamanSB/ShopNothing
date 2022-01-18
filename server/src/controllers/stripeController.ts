@@ -15,20 +15,6 @@ const getStripePublisherKey = (req: Request, res: Response) => {
     }
 }
 
-const generatePaymentIntent = async (req: Request, res: Response) => {
-    // request will contain information on items.
-    try {
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount: 1241,
-            currency: "gbp",
-        });
-        res.json({
-            clientSecret: paymentIntent.client_secret
-        });
-    } catch (err) {
-        console.log(`[Server] Error occurred within 'create-payment-intent: ${JSON.stringify(err)}`);
-    }
-}
 
 const createCheckoutSession = async (req: Request, res: Response) => {
     try {
@@ -45,4 +31,4 @@ const createCheckoutSession = async (req: Request, res: Response) => {
     }
 }
 
-export default { getStripePublisherKey, generatePaymentIntent, createCheckoutSession };
+export default { getStripePublisherKey, createCheckoutSession };

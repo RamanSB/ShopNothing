@@ -9,10 +9,6 @@ const router = express.Router();
 router.route('/stripe-config')
     .get(stripeController.getStripePublisherKey);
 
-// Didn't manage to get this to work.
-router.route('/create-payment-intent')
-    .post(stripeController.generatePaymentIntent)
-
 router.route('/create-checkout-session')
     .post(stripeController.createCheckoutSession);
 
