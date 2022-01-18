@@ -13,9 +13,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { useEffect, useState } from 'react';
-
-
+import CheckoutFailurePage from './pages/CheckoutFailurePage';
 
 const App = () => {
 
@@ -27,6 +25,7 @@ const App = () => {
       <div id="main-page-container">
       
         <Routes>
+          <Route path="/checkout/failure" element={<CheckoutFailurePage/>}/>
           <Route path="/checkout/success" element={<CheckoutSuccessPage/>}/>
           <Route path="/checkout" element={<CheckoutPage/>}/>
           <Route path="/basket" element={<BasketPage/>}/>

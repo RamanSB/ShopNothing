@@ -30,7 +30,6 @@ const ProductCard = ({imgSrc, productName, price, description}: ProductType) => 
         setGlobalState((prevState: any) => {
             if (qty !== 0) {
                 let existingBasket = prevState.basket;
-                setQty(0);
                 if (Object.keys(existingBasket).includes(productName)) {
                     existingBasket[productName] += qty;
                     return {
@@ -38,7 +37,7 @@ const ProductCard = ({imgSrc, productName, price, description}: ProductType) => 
                         basket: existingBasket
                     }
                 } else {
-                    existingBasket[productName] = 1;
+                    existingBasket[productName] = qty;
                     return {
                         ...prevState,
                         basket: existingBasket
@@ -47,7 +46,7 @@ const ProductCard = ({imgSrc, productName, price, description}: ProductType) => 
             } else {
                 return prevState;
             }
-        });
+        }, setQty(0));
     }
 
     return (

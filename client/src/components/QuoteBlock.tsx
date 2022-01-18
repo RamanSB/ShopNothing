@@ -1,6 +1,5 @@
 const QuoteBlock = (props: any) => {
     let className = "void-segment ".concat(props.styles);
-    console.log(`ClassName: ${className}`);
   
     const animationStyle = {
       animationName: "animate-quote-blocks",

@@ -1,4 +1,5 @@
-import axios from 'axios';import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { LoadingSpinner } from '../components/LoadingSpinner';
 import PaymentService from '../api/PaymentService';
 import { GlobalAppStateContext } from '../contexts/GlobalAppStateContext';
 
@@ -11,6 +12,7 @@ const CheckoutPage = () => {
     useEffect(() => {
         (async function(){
             try {
+                localStorage.setItem('globalState', JSON.stringify(globalState));
                 let res = await PaymentService.makePayment(globalState.lineItems);
                 console.log(`Response: ${JSON.stringify(res)}`);
                 isLoading(false);
@@ -19,10 +21,10 @@ const CheckoutPage = () => {
                 console.log(`Error: ${JSON.stringify(err)}`);
             }
         })();
-    }, [globalState.lineItems]);
+    }, [globalState]);
 
     if (loading) {
-        return <Spinner/>
+        return <LoadingSpinner></LoadingSpinner>
     } else {
         return (
             <>
@@ -31,15 +33,5 @@ const CheckoutPage = () => {
         );
     }
 };
-
-
-function Spinner() {
-    return (
-        <div id="spinner">
-            <i className="fas fa-mortar-pestle scale"></i>          
-        </div>
-    )
-}
-
 
 export default CheckoutPage;

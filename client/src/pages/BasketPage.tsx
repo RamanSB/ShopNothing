@@ -9,7 +9,7 @@ import { StripePaymentItemFormat } from "../types/StripePaymentItemFormat";
 
 
 const BasketPage = (props: any) => {
-    
+    console.log(`BasketPage`);
     const { globalState } = React.useContext(GlobalAppStateContext);    
     return (
         <div id="basket-page">
@@ -22,22 +22,22 @@ const BasketPage = (props: any) => {
 }
 
 const BasketGrid = (props: any) => {
-    
     let [basketState, setBasketState] : [any, Function] = React.useState([]);
+    const {globalState} = React.useContext(GlobalAppStateContext);
+    let basketItems = globalState.basket;
     
     useLayoutEffect(() => {
         (async function fetchData(){
             let response = await ProductService.getAllProducts();
             setBasketState(response);
         })();
-    }, []);
+    }, [basketItems]);
 
-    const {globalState} = React.useContext(GlobalAppStateContext);
-    let basketItems = globalState.basket;
     let grandTotal = 0;
     for (let itemName in basketItems) {
         grandTotal += basketItems[itemName] * basketState.filter((data: Product) => data.name === itemName)[0]?.price
     }
+    
     return (
         <>
             <h2 style={{marginTop: "96px", alignSelf: "center", fontFamily: "Montserrat", letterSpacing: "0.08em", fontSize: "4rem", color: "white"}}>My Basket</h2>
@@ -47,7 +47,7 @@ const BasketGrid = (props: any) => {
                 <h1>Quantity</h1>
                 <h1 style={{justifySelf: "center"}}>Price</h1>
                 {Object.keys(basketItems).map((itemName, idx) => {
-                    let productData: any = basketState.filter((product: Product) => product.name === itemName)[0];
+                    let productData: any = basketState.filter((product: Product) => product?.name === itemName)[0];
                     return (
                         basketItems[itemName] !== 0 ? 
                         <>
@@ -118,18 +118,21 @@ const CheckoutButton = (props: any) => {
 }
 
 function constructLineItems(basket: any, priceData: Array<PriceData>) : Array<StripePaymentItemFormat> {
-    return Object.entries(basket).map((keyVal, val) => (
-        {
-            price_data: {
-                currency: 'gbp',
-                product_data: {
-                    name: keyVal[0]
-                },
-                unit_amount: priceData.filter(product => product.name === keyVal[0]).reduce((prevPrice, currentPrice) => currentPrice, {price: 0})?.price
-            },
-            quantity: val
-        }
-    ));
+    return Object.entries(basket).map((keyVal, idx) => {
+        console.log(`Parameters: ${keyVal} | Idx: ${idx}`)
+        return (
+                {
+                    price_data: {
+                        currency: 'gbp',
+                        product_data: {
+                            name: keyVal[0]
+                        },
+                        unit_amount: priceData.filter(product => product.name === keyVal[0]).reduce((prevPrice, currentPrice) => currentPrice, {price: 0})?.price
+                    },
+                    quantity: Number(keyVal[1])
+                }
+            )}
+        );
 }
 
 interface PriceData {

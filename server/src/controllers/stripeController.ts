@@ -22,7 +22,6 @@ const generatePaymentIntent = async (req: Request, res: Response) => {
             amount: 1241,
             currency: "gbp",
         });
-        console.log(`Stripe: ${JSON.stringify(stripe)} || payment intents: ${paymentIntent}`);
         res.json({
             clientSecret: paymentIntent.client_secret
         });
@@ -33,32 +32,10 @@ const generatePaymentIntent = async (req: Request, res: Response) => {
 
 const createCheckoutSession = async (req: Request, res: Response) => {
     try {
-        console.log(`Request Body FROM SERVER: ${req.body}`);
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
-            line_items: [
-                {
-                  "price_data": {
-                    "currency": "gbp",
-                    "product_data": {
-                      "name": "Platinum Bars"
-                    },
-                    "unit_amount": 2500
-                  },
-                  "quantity": 2
-                },
-                {
-                  "price_data": {
-                    "currency": "gbp",
-                    "product_data": {
-                      "name": "Golden Nugget"
-                    },
-                    "unit_amount": 1500
-                  },
-                  "quantity": 1
-                }
-              ],
+            line_items: [...req.body],
             success_url: `${process.env.SERVER_URL}/checkout/success`,
             cancel_url: `${process.env.SERVER_URL}/checkout/cancel`
         });

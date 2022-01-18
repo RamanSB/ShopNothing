@@ -104,8 +104,8 @@
 }
 
 .void-one {
-    bottom: 25%;
-    right: 2%;
+    bottom: 5%;
+    left: 2%;
 }
 
 .void-two {
@@ -316,7 +316,7 @@
     border-bottom: 5px solid white;
     height: 200px;
     width: 200px;
-    margin-top: 40%;
+    margin-top: 20%;
     position: relative;
     box-shadow: 1px 1px var(--colorPrimary);
     animation-name: rotate-spinner;

@@ -5,6 +5,7 @@ export const QuantityButton = (props: any) => {
 
     const { globalState, setGlobalState } = React.useContext(GlobalAppStateContext);
     let existingQty = globalState.basket[props.productName];
+    console.log(`Existing quantity of ${props.productName}: ${existingQty}`);
 
     const decrementHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
         if (existingQty !== 0) {

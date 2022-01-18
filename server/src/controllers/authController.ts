@@ -39,17 +39,14 @@ const signInUser = async (req: Request, res: Response) => {
             return res.status(404).send(`No account exists for user: ${user.email}`);
         }
         // Check if password is correct
-        console.log(`Pasword entered: ${req.body.password}`);
-        console.log(`User password: ${user.password}`);
-        const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
-        console.log(`IsPasswordValid: ${isPasswordValid}`);
+        const isPasswordValid: boolean = await bcrypt.compare(req.body.password, user.password);
         if (!isPasswordValid) {
             return res.status(401).send("Invalid password");
         }
         // If password is correct and account exists, generate JWT to return back to client (which will be used to authorize subsequent requests).
         const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET_KEY);
         res.cookie('jsonwebtoken', token, {
-            maxAge: Date.now() + 86.4E6,
+            maxAge: Date.now() + 86.4E6 / 96,
             httpOnly: true
         });
         return res.status(200).send(token);
@@ -63,9 +60,8 @@ const signInUser = async (req: Request, res: Response) => {
 
 const signOutUser = async (req: Request, res: Response) => {
     console.log(`[Server] Signing out user...`);
-    return res.clearCookie('jsonwebtoken').status(200).json({message: "Successfully signed out."})
+    return res.clearCookie('jsonwebtoken').status(200).json({message: "Successfully signed out."});
 }
-
 
 const mockProtectedRouteExhibition = (req: Request, res: Response) => {
     if (!req.cookies.jsonwebtoken) {
