@@ -127,7 +127,7 @@ function constructLineItems(basket: any, priceData: Array<PriceData>) : Array<St
                         product_data: {
                             name: keyVal[0]
                         },
-                        unit_amount: priceData.filter(product => product.name === keyVal[0]).reduce((prevPrice, currentPrice) => currentPrice, {price: 0})?.price
+                        unit_amount: 100 * priceData.filter(product => product.name === keyVal[0]).reduce((prevPrice, currentPrice) => currentPrice, {price: 0})?.price
                     },
                     quantity: Number(keyVal[1])
                 }
