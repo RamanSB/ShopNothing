@@ -20,7 +20,7 @@ class Server {
     }
 
     listen(): void {
-        this.app.listen(this.port, () => {
+        this.app.listen(process.env.PORT || this.port, () => {
             console.log(`App listening on port: ${this.port}`);
         })
     }
