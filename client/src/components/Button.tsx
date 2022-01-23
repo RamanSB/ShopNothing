@@ -16,7 +16,8 @@ const Button = (props: any) => {
       animationDuration: "1s",
       animationIterationCount: "infinite",
       animationDirection: "alternate",
-      cursor: "pointer"
+      cursor: "pointer",
+      marginBottom: "24px"
     };
   
     return (
