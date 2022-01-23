@@ -1,7 +1,5 @@
 import express, { Application } from 'express';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-
 
 class Server {
 
@@ -21,7 +19,7 @@ class Server {
         }
     }
 
-    listen() {
+    listen(): void {
         this.app.listen(this.port, () => {
             console.log(`App listening on port: ${this.port}`);
         })
@@ -33,7 +31,7 @@ class Server {
         }
     }
 
-    async connectToDatabase(dbUrl: string) {
+    async connectToDatabase(dbUrl: string): Promise<void> {
         await mongoose.connect(dbUrl, () => {
             console.log(`Successfully connected to Database: ${dbUrl}`);
         });
