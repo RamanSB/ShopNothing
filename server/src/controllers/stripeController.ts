@@ -6,9 +6,9 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY_DEV);
 let envConfig : DotenvConfigOutput = dotenv.config();
 
 const getStripePublisherKey = (req: Request, res: Response) => {
-    if (process.env.ENV === 'DEV') {
+    if (process.env.ENV === 'development') {
         return res.status(200).send(process.env.STRIPE_PUBLISHER_KEY_DEV);
-    } else if(process.env.ENV === 'PROD') {
+    } else if(process.env.ENV === 'production') {
         return res.status(200).send(process.env.STRIPE_PUBLISHER_KEY_PROD);
     } else {
         console.log(`Env not recognized: ${process.env.ENV}`);
