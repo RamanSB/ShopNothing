@@ -6,6 +6,7 @@ import User from '../models/User';
 const getAllProducts = async (req: Request, res: Response) => {
     try {
         let products = await Product.find();
+        console.log(`Products [Server]: ${JSON.stringify(products)}`);
         return res.status(200).json(products);
     } catch (err) {
         console.log(`An error occurred when attempting to fetch all products: ${err}`);

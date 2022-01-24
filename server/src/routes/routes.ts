@@ -10,7 +10,7 @@ router.route('/stripe-config')
     .get(stripeController.getStripePublisherKey);
 
 router.route('/create-checkout-session')
-    .post(stripeController.createCheckoutSession);
+    .post(authMiddleware.verifyJwt, stripeController.createCheckoutSession);
 
 router.route('/signup')
     .post(authController.signUpUser)

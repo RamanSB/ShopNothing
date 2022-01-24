@@ -26,7 +26,7 @@ const signUpUser = async (req: Request, res: Response) => {
     } catch (err) {
         console.log(`An error occurred during sign-up: ${err}`);
         return res.send(404).json({
-            error: `An error occurred during sign-in: ${err}`
+            error: `An error occurred during sign-up: ${err}`
         });
     }
 }
