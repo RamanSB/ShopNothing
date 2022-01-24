@@ -18,6 +18,7 @@ const getStripePublisherKey = (req: Request, res: Response) => {
 
 const createCheckoutSession = async (req: Request, res: Response) => {
     try {
+        console.log(`Headers: ${JSON.stringify(req.headers)}`);
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
