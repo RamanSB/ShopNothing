@@ -1,4 +1,3 @@
-
 import ReactDOM from 'react-dom';
 import GlobalStateProvider from './contexts/GlobalAppStateContext';
 import "./assets/styles/styles.css";
@@ -43,8 +42,7 @@ const App = () => {
 
 
 (async () => {
-  let { data }  = await axios.get("http://localhost:6942/stripe-config");
-  
+  let data: string = await axios.get("https://nothing-commerce.herokuapp.com/stripe-config", {withCredentials: false});
   const stripe = loadStripe(data);
 
   const rootElem = document.getElementById('root');

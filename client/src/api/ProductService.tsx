@@ -2,7 +2,7 @@ import axios from "axios"
 
 const getAllProducts = async () => {
     try {
-        let response = await axios.get("http://localhost:6942/products");
+        let response = await axios.get("/products");
         return response.data
     } catch (err) {
         console.log(`An error occurred when fetching the products: ${err}.`);
@@ -25,7 +25,7 @@ const storePurchasedProducts = async (lineItems: Array<any>, orderDate: Date) =>
             }
         }) : lineItems[0]['price_data']['unit_amount'] * lineItems[0]['quantity'];
 
-        await axios.post("http://localhost:6942/store-order-history", {
+        await axios.post("/store-order-history", {
             orderedAt: orderDate,
             products: orderedProducts,
             total: totalPrice

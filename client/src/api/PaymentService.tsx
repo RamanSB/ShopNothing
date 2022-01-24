@@ -3,7 +3,7 @@ import { StripePaymentItemFormat } from '../types/StripePaymentItemFormat';
 
 const makePayment = async (itemPaymentData: Array<StripePaymentItemFormat>) => {
     try {
-        let res = await axios.post("http://localhost:6942/create-checkout-session", itemPaymentData);
+        let res = await axios.post("/create-checkout-session", itemPaymentData, {withCredentials: true});
         console.log(`Response in PaymentService: ${JSON.stringify(res.data)}`)
         return res;
     } catch (err) {

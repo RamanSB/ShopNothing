@@ -2,11 +2,11 @@ import axios from 'axios';
 import { User } from '../types/User';
 
 
+
 const requestStripePublisherKey = async () => {
     try {
         let publisherKey = await axios.get('/stripe-config');
-        return publisherKey
-
+        return publisherKey;
     } catch (err) {
         console.log(`An error has occurred when retreiving the stripe-publisher key.`);
         return "";
@@ -19,7 +19,7 @@ const signUpUser = async (user: User) => {
         if (!areRequiredFieldsPresent) {
             throw new Error("Required fields are missing");
         }
-        let response = await axios.post("http://localhost:6942/signup", user);
+        let response = await axios.post("/signup", user);
         if (response.status === 201) {
             return response;
         }
@@ -35,7 +35,7 @@ const signInUser = async (user: User) => {
         delete user.lastName;
         delete user.phone;
         console.log(`Signing in User: ${JSON.stringify(user)}`);
-        let response = await axios.post("http://localhost:6942/signin", user, {withCredentials: true});
+        let response = await axios.post("/signin", user, {withCredentials: true});
         if (response.status === 200) {
             return response;
         }
@@ -46,7 +46,7 @@ const signInUser = async (user: User) => {
 
 const signOutUser = async (userEmail: String) => {
     try {
-        let response = await axios.get("http://localhost:6942/signout");
+        let response = await axios.get("/signout");
         if (response.status === 200) {
             console.log(`User ${userEmail} has successfully signed out.`);
         } 
@@ -57,7 +57,7 @@ const signOutUser = async (userEmail: String) => {
 
 const invokeMockRoute = async () => {
     try {
-        await axios.get('http://localhost:6942/protected', {withCredentials: true});
+        await axios.get('/protected', {withCredentials: true});
     } catch (err) {
         console.log(`An error occurred invoking the protected route: ${err}`);
     }
