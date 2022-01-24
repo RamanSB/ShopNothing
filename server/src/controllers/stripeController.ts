@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import dotenv, { DotenvConfigOutput} from 'dotenv';
 
 dotenv.config();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY_DEV);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY_PROD);
 let envConfig : DotenvConfigOutput = dotenv.config();
 
 const getStripePublisherKey = (req: Request, res: Response) => {
