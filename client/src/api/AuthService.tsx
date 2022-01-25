@@ -63,6 +63,6 @@ const invokeMockRoute = async () => {
     }
 }
 
+const AuthService = { requestStripePublisherKey, signUpUser, signInUser, signOutUser, invokeMockRoute };
 
-
-export default { requestStripePublisherKey, signUpUser, signInUser, signOutUser, invokeMockRoute };
+export default AuthService;
