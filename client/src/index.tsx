@@ -41,7 +41,7 @@ const App = () => {
 
 
 (async () => {
-  let data = await axios.get("https://master--heuristic-davinci-c2b258.netlify.app/stripe-config", {withCredentials: true});
+  let data = await axios.get("https://nothing-commerce.herokuapp.com/stripe-config", {withCredentials: true});
   const stripe = loadStripe(data?.data);
 
   const rootElem = document.getElementById('root');
