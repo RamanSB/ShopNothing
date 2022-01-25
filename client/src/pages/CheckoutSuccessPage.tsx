@@ -17,7 +17,7 @@ const CheckoutSuccessPage = () => {
             console.log(`Clean up function invoked on component will unmount.`);
             setGlobalState((prevGlobalState: any) => ({...prevGlobalState, basket: []}));
         }
-    }, []);
+    }, [setGlobalState]);
 
     let lineItems : Array<any> = globalState?.lineItems;
     (async function () {

@@ -24,7 +24,6 @@ const SignInPage = (props: any) => {
     });
 
     useEffect(() => {
-        console.log(`Inside the effect: [FailedSignin:${state.failedSignIn}]`);
         setTimeout(() => setState(prevState => {
             return ({
                 ...prevState,
@@ -103,7 +102,7 @@ const SignInPage = (props: any) => {
                 return ({...prevLocalState, failedSignIn: true});
             })
         }
-        console.log(`Response from [SignIn] : ${JSON.stringify(response)}`)
+        
         setGlobalState((prevState: any) => {
             if (!response) {
                 return {...prevState}
@@ -134,7 +133,6 @@ const SignInPage = (props: any) => {
                 });
             }
             
-            console.log(`Response: ${JSON.stringify(response)}`);
             setState((prevState: any) => {
                 if (!response) {
                     return {
@@ -156,7 +154,6 @@ const SignInPage = (props: any) => {
                 }
             });
         } else {
-            console.log(`Sign up button clicked`);
             setState(prevState => {
                 return ({
                     ...prevState,

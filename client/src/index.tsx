@@ -16,7 +16,6 @@ import CheckoutFailurePage from './pages/CheckoutFailurePage';
 
 const App = () => {
 
-  console.log(`App: App Functional Component`);
   return (
     <div id="app-container">
       <BrowserRouter>
@@ -42,8 +41,8 @@ const App = () => {
 
 
 (async () => {
-  let data: string = await axios.get("https://nothing-commerce.herokuapp.com/stripe-config", {withCredentials: false});
-  const stripe = loadStripe(data);
+  let data = await axios.get("https://nothing-commerce.herokuapp.com/stripe-config", {withCredentials: true});
+  const stripe = loadStripe(data?.data);
 
   const rootElem = document.getElementById('root');
   const GlobalStateWrappedApp = () => {

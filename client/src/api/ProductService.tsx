@@ -35,5 +35,6 @@ const storePurchasedProducts = async (lineItems: Array<any>, orderDate: Date) =>
     }
 }
 
-export default { getAllProducts, storePurchasedProducts } 
+const ProductService = { getAllProducts, storePurchasedProducts };
 
+export default ProductService;
