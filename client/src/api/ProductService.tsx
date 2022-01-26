@@ -2,7 +2,7 @@ import axios from "axios"
 
 const getAllProducts = async () => {
     try {
-        let response = await axios.get("/products");
+        let response = await axios.get("https://nothing-commerce.herokuapp.com/products", {withCredentials: true});
         return response.data
     } catch (err) {
         console.log(`An error occurred when fetching the products: ${err}.`);
