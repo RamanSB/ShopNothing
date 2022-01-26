@@ -25,7 +25,7 @@ const storePurchasedProducts = async (lineItems: Array<any>, orderDate: Date) =>
             }
         }) : lineItems[0]['price_data']['unit_amount'] * lineItems[0]['quantity'];
 
-        await axios.post("/store-order-history", {
+        await axios.post("https://nothing-commerce.herokuapp.com/store-order-history", {
             orderedAt: orderDate,
             products: orderedProducts,
             total: totalPrice
