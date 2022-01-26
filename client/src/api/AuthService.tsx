@@ -19,7 +19,7 @@ const signUpUser = async (user: User) => {
         if (!areRequiredFieldsPresent) {
             throw new Error("Required fields are missing");
         }
-        let response = await axios.post("/signup", user, {withCredentials: true});
+        let response = await axios.post("https://nothing-commerce.herokuapp.com/signup", user, {withCredentials: true});
         if (response.status === 201) {
             return response;
         }
