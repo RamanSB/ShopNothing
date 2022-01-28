@@ -21,7 +21,7 @@ const CheckoutPage = () => {
                 console.log(`Error: ${JSON.stringify(err)}`);
             }
         })();
-    }, [globalState]);
+    }, []);
 
     if (loading) {
         return <LoadingSpinner></LoadingSpinner>
