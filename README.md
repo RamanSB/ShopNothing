@@ -19,7 +19,5 @@ Please note the products you are not actually purchasing any products in this pr
 4) Using an api/ directory in front-end where api calls are centralized (no need to make api calls in several different places manually, define once in a service and re-use)
 5) React Router v6: <Routes> <Route path="" element={}/>
 6) Persisting global application state to localStorage prior to redirecting URL to another domain. Re-reading the globalState from localStorage after redirection returns.
-  
- 
-  
+7) Set-Cookie attributes 'sameSite='none'' is essential. CORS related issue for cookie sotrage
   
