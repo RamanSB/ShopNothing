@@ -47,7 +47,9 @@ const signInUser = async (req: Request, res: Response) => {
         const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET_KEY);
         res.cookie('jsonwebtoken', token, {
             maxAge: Date.now() + 86.4E6 / 96,
-            httpOnly: true
+            httpOnly: true,
+            sameSite: 'none',
+            secure: true
         });
         return res.status(200).send(token);
     } catch (err) {
